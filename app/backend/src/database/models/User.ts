@@ -1,4 +1,4 @@
-import {  INTEGER, Model, STRING  } from 'sequelize';
+import { INTEGER, Model, STRING } from 'sequelize';
 import db from '.';
 // import OtherModel from './OtherModel';
 
@@ -28,7 +28,7 @@ User.init({
   email: {
     allowNull: false,
     unique: true,
-    type: STRING
+    type: STRING,
   },
   password: {
     allowNull: false,
@@ -43,7 +43,7 @@ User.init({
 });
 
 /**
-  * `Workaround` para aplicar as associations em TS: 
+  * `Workaround` para aplicar as associations em TS:
   * Associations 1:N devem ficar em uma das instâncias de modelo
   * */
 

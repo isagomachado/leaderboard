@@ -17,14 +17,14 @@ Match.init({
     allowNull: false,
     autoIncrement: true,
     primaryKey: true,
-    type: INTEGER
+    type: INTEGER,
   },
   home_team: {
     allowNull: false,
     type: INTEGER,
     references : {
       model: 'teams',
-      key: 'id'
+      key: 'id',
     },
   },
   home_team_goals: {
@@ -33,9 +33,9 @@ Match.init({
   away_team: {
     allowNull: false,
     type: INTEGER,
-    references : {
+    references: {
       model: 'teams',
-      key: 'id'
+      key: 'id',
     },
   },
   away_team_goals: {
@@ -55,7 +55,7 @@ Match.init({
 });
 
 /**
-  * `Workaround` para aplicar as associations em TS: 
+  * `Workaround` para aplicar as associations em TS:
   * Associations 1:N devem ficar em uma das instâncias de modelo
   * */
 
@@ -65,7 +65,7 @@ Match.init({
 // Example.hasMany(OtherModel, { foreignKey: 'campoC', as: 'campoEstrangeiroC' });
 // Example.hasMany(OtherModel, { foreignKey: 'campoD', as: 'campoEstrangeiroD' });
 
-Match.belongsTo(Team, { foreignKey: 'id' })
+Match.belongsTo(Team, { foreignKey: 'id' });
 // Match.belongsTo(Team, { foreignKey: 'id' })
 
 export default Match;

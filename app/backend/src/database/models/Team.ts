@@ -1,4 +1,4 @@
-import {  INTEGER, Model, STRING  } from 'sequelize';
+import { INTEGER, Model, STRING } from 'sequelize';
 import db from '.';
 import Match from './Match';
 // import OtherModel from './OtherModel';
@@ -29,7 +29,7 @@ Team.init({
 });
 
 /**
-  * `Workaround` para aplicar as associations em TS: 
+  * `Workaround` para aplicar as associations em TS:
   * Associations 1:N devem ficar em uma das instâncias de modelo
   * */
 
@@ -39,7 +39,7 @@ Team.init({
 // Example.hasMany(OtherModel, { foreignKey: 'campoC', as: 'campoEstrangeiroC' });
 // Example.hasMany(OtherModel, { foreignKey: 'campoD', as: 'campoEstrangeiroD' });
 
-Team.hasMany(Match, { foreignKey: 'home_team' } )
-Team.hasMany(Match, { foreignKey: 'away_team' } )
+Team.hasMany(Match, { foreignKey: 'home_team' });
+Team.hasMany(Match, { foreignKey: 'away_team' });
 
 export default Team;
