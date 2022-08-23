@@ -2,6 +2,8 @@ import * as Joi from 'joi';
 import { sign, verify } from 'jsonwebtoken';
 import { ILogin } from '../interfaces/ILogin';
 import UnauthorizedError from '../errors/UnauthorizedError';
+import { passwordService } from './passwordService';
+import IncorrectDataError from '../errors/IncorrectDataError';
 
 const secret = process.env.JWT_SECRET || 'jwt_secret';
 
@@ -15,9 +17,16 @@ export default class LoginService {
     return result;
   }
 
-  async makeToken(data: ILogin): Promise<string> {
-    const { email } = data;
-    const payload = { email };
+  async makeToken(data: ILogin): Promise<string | undefined> {
+    const { email, password } = data;
+    const passwordHash = passwordService.encryptPassword(password);
+    if (email !== 'admin@admin.com' && email !== 'user@user.com') {
+      throw new IncorrectDataError('Incorrect email or password');
+    }
+    if (password !== 'secret_admin' && password !== 'secret_user') {
+      throw new IncorrectDataError('Incorrect email or password');
+    }
+    const payload = { email, passwordHash };
     const token = sign(payload, secret, { expiresIn: '30d', algorithm: 'HS256' });
     return token;
   }
