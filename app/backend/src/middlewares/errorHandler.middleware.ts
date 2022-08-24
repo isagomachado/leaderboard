@@ -8,6 +8,7 @@ const errorHandler = (err: Error, _req: Request, res: Response, _next: NextFunct
     case 'InvalidIdError': res.status(400).json({ message }); break;
     case 'IncorrectDataError': res.status(401).json({ message }); break;
     case 'NotFoundError': res.status(404).json({ message }); break;
+    case 'TokenRequiredError': res.status(400).json({ message }); break;
     default: res.status(500).json(err.message);
   }
 };

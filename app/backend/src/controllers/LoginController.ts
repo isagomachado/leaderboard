@@ -1,4 +1,5 @@
 import { Request, Response } from 'express';
+import TokenRequiredError from '../errors/TokenRequiredError';
 import LoginService from '../services/LoginService';
 // import { ILoginService } from '../interfaces/ILoginService';
 
@@ -9,5 +10,16 @@ export default class LoginController {
     const validateBody = await this.loginService.validateBody(req.body);
     const token = await this.loginService.makeToken(validateBody);
     return res.status(200).json({ token });
+  }
+
+  async loginRole(req: Request, res: Response) {
+    const token = req.headers.authorization;
+    if (token !== undefined) {
+      const email = await this.loginService.readToken(token);
+      const { role } = await this.loginService.getByEmail(email);
+      res.status(200).json({ role })
+    } else {
+      throw new TokenRequiredError('Token is required');
+    }
   }
 }

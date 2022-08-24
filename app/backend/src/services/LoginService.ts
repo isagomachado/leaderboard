@@ -1,9 +1,11 @@
 import * as Joi from 'joi';
 import { sign, verify } from 'jsonwebtoken';
 import { ILogin } from '../interfaces/ILogin';
-import UnauthorizedError from '../errors/UnauthorizedError';
+// import UnauthorizedError from '../errors/UnauthorizedError';
 import { passwordService } from './passwordService';
 import IncorrectDataError from '../errors/IncorrectDataError';
+import User from '../database/models/User';
+import NotFoundError from '../errors/NotFoundError';
 
 const secret = process.env.JWT_SECRET || 'jwt_secret';
 
@@ -32,13 +34,19 @@ export default class LoginService {
   }
 
   async readToken(token: string) {
-    try {
-      const decoded = verify(token, secret);
-      console.log(decoded);
-      // observar essa saida para verificar token para VALIDAÇÃO
-      return decoded;
-    } catch (err) {
-      throw new UnauthorizedError('Invalid fields');
+    const { email } = verify(token, secret) as ILogin;
+    console.log(email);
+    return email;
+  }
+
+  async getByEmail(email: string) {
+    const user = await User.findOne({
+      where: { email },
+      raw: true,
+    });
+    if (!user) {
+      throw new NotFoundError('not found user');
     }
+    return user;
   }
 }
