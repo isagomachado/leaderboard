@@ -9,4 +9,14 @@ export default class TeamsService {
     }
     return teams;
   }
+
+  async get(id: Team['id']): Promise<Team> {
+    const team = await Team.findByPk(id, {
+      raw: true,
+    });
+
+    if (!team) throw new NotFoundError('Not Found');
+
+    return team;
+  }
 }
