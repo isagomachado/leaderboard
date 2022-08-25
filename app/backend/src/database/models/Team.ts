@@ -1,12 +1,12 @@
 import { INTEGER, Model, STRING } from 'sequelize';
 import db from '.';
-import Match from './Match';
+// import Match from './Match';
 // import OtherModel from './OtherModel';
 
 class Team extends Model {
   // public <campo>!: <tipo>;
   public id: number;
-  public team_name: string;
+  public teamName: string;
 }
 
 Team.init({
@@ -16,9 +16,10 @@ Team.init({
     primaryKey: true,
     type: INTEGER,
   },
-  team_name: {
+  teamName: {
     allowNull: false,
     type: STRING,
+    field: 'team_name',
   },
 }, {
   // ... Outras configs
@@ -39,7 +40,7 @@ Team.init({
 // Example.hasMany(OtherModel, { foreignKey: 'campoC', as: 'campoEstrangeiroC' });
 // Example.hasMany(OtherModel, { foreignKey: 'campoD', as: 'campoEstrangeiroD' });
 
-Team.hasMany(Match, { foreignKey: 'home_team' });
-Team.hasMany(Match, { foreignKey: 'away_team' });
+// Team.hasMany(Match, { foreignKey: 'home_team' });
+// Team.hasMany(Match, { foreignKey: 'away_team' });
 
 export default Team;

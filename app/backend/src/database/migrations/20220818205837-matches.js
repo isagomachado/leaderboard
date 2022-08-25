@@ -7,26 +7,39 @@ module.exports = {
         allowNull: false,
         autoIncrement: true,
         primaryKey: true,
-        type: Sequelize.INTEGER
-      },
-      home_team: {
-        allowNull: false,
         type: Sequelize.INTEGER,
       },
-      home_team_goals: {
-        type: Sequelize.INTEGER,
-      },
-      away_team: {
-        allowNull: false,
-        type: Sequelize.INTEGER
-      },
-      away_team_goals: {
+      homeTeam: {
         allowNull: false,
         type: Sequelize.INTEGER,
+        field: 'home_team',
+        references : {
+          model: 'teams',
+          key: 'id',
+        },
       },
-      in_progress: {
+      homeTeamGoals: {
+        type: Sequelize.INTEGER,
+        field: 'home_team_goals',
+      },
+      awayTeam: {
         allowNull: false,
         type: Sequelize.INTEGER,
+        field: 'away_team',
+        references: {
+          model: 'teams',
+          key: 'id',
+        },
+      },
+      awayTeamGoals: {
+        allowNull: false,
+        type: Sequelize.INTEGER,
+        field: 'away_team_goals',
+      },
+      inProgress: {
+        allowNull: false,
+        type: Sequelize.INTEGER,
+        field: 'in_progress',
       },
     })
   },

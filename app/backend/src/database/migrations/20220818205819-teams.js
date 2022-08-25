@@ -7,11 +7,12 @@ module.exports = {
         allowNull: false,
         autoIncrement: true,
         primaryKey: true,
-        type: Sequelize.INTEGER
+        type: Sequelize.INTEGER,
       },
-      team_name: {
+      teamName: {
         allowNull: false,
         type: Sequelize.STRING,
+        field: 'team_name'
       },
     })
   },

@@ -4,7 +4,7 @@ import LoginService from '../services/LoginService';
 // import { ILoginService } from '../interfaces/ILoginService';
 
 export default class LoginController {
-  constructor(private loginService: LoginService) { } 
+  constructor(private loginService: LoginService) { }
   // PRECISO APLICAR INVERSÃO DE DEPENDENCIA E DEIXAR loginService vinculado a uma interface e não uma classe declarada
   async login(req: Request, res: Response) {
     const validateBody = await this.loginService.validateBody(req.body);
@@ -17,9 +17,9 @@ export default class LoginController {
     if (token !== undefined) {
       const email = await this.loginService.readToken(token);
       const { role } = await this.loginService.getByEmail(email);
-      res.status(200).json({ role })
-    } else {
-      throw new TokenRequiredError('Token is required');
+      return res.status(200).json({ role });
     }
+
+    throw new TokenRequiredError('Token is required');
   }
 }
