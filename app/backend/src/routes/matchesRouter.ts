@@ -1,13 +1,12 @@
 import { Request, Response, Router } from 'express';
-// import LoginController from '../controllers/LoginController';
-// import LoginService from '../services/LoginService';
+import MatchesController from '../controllers/MatchesController';
+import MatchesService from '../services/MatchesService';
 
 const matchesRouter = Router();
 
-// const loginService = new LoginService();
-// const loginController = new LoginController(loginService);
+const matchesService = new MatchesService();
+const matchesController = new MatchesController(matchesService);
 
-matchesRouter.get('/', (req: Request, res: Response) => res.status(200).send('ok'));
-
+matchesRouter.get('/', (req: Request, res: Response) => matchesController.list(req, res));
 
 export default matchesRouter;
