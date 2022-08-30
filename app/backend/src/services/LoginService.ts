@@ -1,3 +1,4 @@
+import 'dotenv/config';
 import * as Joi from 'joi';
 import { sign, verify } from 'jsonwebtoken';
 import { ILogin } from '../interfaces/ILogin';

@@ -8,6 +8,6 @@ const matchesService = new MatchesService();
 const matchesController = new MatchesController(matchesService);
 
 matchesRouter.get('/', (req: Request, res: Response) => matchesController.list(req, res));
-// matchesRouter.get('/', (req: Request, res: Response) => res.status(200).send('ok'));
+matchesRouter.post('/', (req: Request, res: Response) => matchesController.inProgressAdd(req, res));
 
 export default matchesRouter;
