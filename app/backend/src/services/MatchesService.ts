@@ -5,6 +5,7 @@ import NotFoundError from '../errors/NotFoundError';
 import { IAddMatch } from '../interfaces/IAddMatch';
 import { IMatch } from '../interfaces/IMatch';
 import InvalidIdError from '../errors/InvalidIdError';
+import IncorrectDataError from '../errors/IncorrectDataError';
 
 export default class MatchesService {
   // async validateBodyAdd(unknown: unknown) {
@@ -60,8 +61,15 @@ export default class MatchesService {
   }
 
   async inProgressAdd(data: IAddMatch): Promise<IMatch> {
+    const { homeTeam, awayTeam, homeTeamGoals, awayTeamGoals } = data;
+    if (homeTeam === awayTeam) {
+      throw new IncorrectDataError('It is not possible to create a match with two equal teams');
+    };
     const aux = {
-      ...data,
+      homeTeam,
+      homeTeamGoals,
+      awayTeam,
+      awayTeamGoals,
       inProgress: true,
     };
     const model = await Match.create(aux, {
@@ -69,6 +77,13 @@ export default class MatchesService {
     });
     return model;
   }
+
+  async changeInProgress(id: number): Promise<void> {
+    await Match.update(
+      { inProgress: false },
+      { where: { id } },
+    );
+  };
 
   async get(id: number) {
     if (!id) throw new InvalidIdError('id is not valid');

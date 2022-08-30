@@ -33,4 +33,15 @@ export default class MatchesController {
     // const match = await this.matchesService.get(id);
     return res.status(201).json(match);
   }
+
+  async changeInProgress(req: Request, res: Response) {
+    try {
+      const { id }: any = req.params;
+      console.log(req.params)
+      await this.matchesService.changeInProgress(id);
+      return res.status(200).json({message: 'Finished'});
+    } catch (err) {
+      console.log(err)
+    }
+  }
 }
