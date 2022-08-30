@@ -24,13 +24,11 @@ export default class MatchesController {
 
   async inProgressAdd(req: Request, res: Response) {
     const { authorization }: any = req.headers;
-    const verifyToken = verify(authorization, secret);
+    
+    verify(authorization, secret);
 
-    if (!verifyToken) throw new UnauthorizedError('Token must be a valid token');
-
-    // const validateBody = await this.matchesService.validateBodyAdd(req.body);
     const match = await this.matchesService.inProgressAdd(req.body);
-    // const match = await this.matchesService.get(id);
+    
     return res.status(201).json(match);
   }
 

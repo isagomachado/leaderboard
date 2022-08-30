@@ -64,7 +64,11 @@ export default class MatchesService {
     const { homeTeam, awayTeam, homeTeamGoals, awayTeamGoals } = data;
     if (homeTeam === awayTeam) {
       throw new IncorrectDataError('It is not possible to create a match with two equal teams');
-    };
+    }
+    const exists = await this.verifyExistsTeam(homeTeam, awayTeam);
+
+    if(!exists) throw new NotFoundError('There is no team with such id!');
+    
     const aux = {
       homeTeam,
       homeTeamGoals,
@@ -78,12 +82,25 @@ export default class MatchesService {
     return model;
   }
 
+  async verifyExistsTeam(homeTeam: IAddMatch['homeTeam'], awayTeam: IAddMatch['awayTeam']) {
+    const home = await Team.findOne({
+      where: {id: homeTeam},
+    })
+    const away = await Team.findOne({
+      where: {id: awayTeam},
+    })
+
+    if (!home || !away) return false;
+
+    return true;
+  }
+
   async changeInProgress(id: number): Promise<void> {
     await Match.update(
       { inProgress: false },
       { where: { id } },
     );
-  };
+  }
 
   async get(id: number) {
     if (!id) throw new InvalidIdError('id is not valid');
