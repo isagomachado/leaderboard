@@ -24,7 +24,7 @@ export default class MatchesController {
 
   async inProgressAdd(req: Request, res: Response) {
     const { authorization }: any = req.headers;
-    
+
     verify(authorization, secret);
 
     const match = await this.matchesService.inProgressAdd(req.body);
@@ -35,11 +35,16 @@ export default class MatchesController {
   async changeInProgress(req: Request, res: Response) {
     try {
       const { id }: any = req.params;
-      console.log(req.params)
       await this.matchesService.changeInProgress(id);
       return res.status(200).json({message: 'Finished'});
     } catch (err) {
       console.log(err)
     }
+  }
+
+  async updateMatch(req: Request, res: Response) {
+    const { id } = req.params;
+    await this.matchesService.updateMatch(Number(id), req.body);
+    return res.status(200).json({message: 'Match Updated'})
   }
 }

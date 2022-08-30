@@ -6,19 +6,9 @@ import { IAddMatch } from '../interfaces/IAddMatch';
 import { IMatch } from '../interfaces/IMatch';
 import InvalidIdError from '../errors/InvalidIdError';
 import IncorrectDataError from '../errors/IncorrectDataError';
+import { IChangeMatch } from '../interfaces/IChangeMatch';
 
 export default class MatchesService {
-  // async validateBodyAdd(unknown: unknown) {
-  //   const schema = Joi.object<IAddMatch>({
-  //     homeTeam: Joi.number(), // O valor deve ser o id do time
-  //     awayTeam: Joi.number(), // O valor deve ser o id do time
-  //     homeTeamGoals: Joi.number(),
-  //     awayTeamGoals: Joi.number(),
-  //   });
-  //   const result = schema.validateAsync(unknown);
-  //   return result;
-  // }
-
   async list(): Promise<Match[]> {
     const matches = await Match.findAll({
       include: [
@@ -102,25 +92,38 @@ export default class MatchesService {
     );
   }
 
-  async get(id: number) {
-    if (!id) throw new InvalidIdError('id is not valid');
-    const match = await Match.findOne({
-      where: { id },
-      include: [
-        {
-          model: Team,
-          as: 'teamHome',
-          attributes: { exclude: ['id'] },
-        },
-        {
-          model: Team,
-          as: 'teamAway',
-          attributes: { exclude: ['id'] },
-        },
-      ],
-    });
-    if (!match) throw new NotFoundError('Not Found');
-
-    return match;
+  async updateMatch(id: number, data: IChangeMatch) {
+    const { homeTeamGoals, awayTeamGoals } = data;
+    await Match.update(
+      { homeTeamGoals, awayTeamGoals },
+      {
+        where: {
+          id,
+          inProgress: true,
+        }
+      }
+    )
   }
+
+  // async get(id: number) {
+  //   if (!id) throw new InvalidIdError('id is not valid');
+  //   const match = await Match.findOne({
+  //     where: { id },
+  //     include: [
+  //       {
+  //         model: Team,
+  //         as: 'teamHome',
+  //         attributes: { exclude: ['id'] },
+  //       },
+  //       {
+  //         model: Team,
+  //         as: 'teamAway',
+  //         attributes: { exclude: ['id'] },
+  //       },
+  //     ],
+  //   });
+  //   if (!match) throw new NotFoundError('Not Found');
+
+  //   return match;
+  // }
 }
