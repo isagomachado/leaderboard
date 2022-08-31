@@ -8,16 +8,16 @@ import IncorrectDataError from '../errors/IncorrectDataError';
 import { IChangeMatch } from '../interfaces/IChangeMatch';
 
 export default class MatchesService {
-  async validateBodyAdd(unknown: unknown) {
-    const schema = Joi.object<IAddMatch>({
-      homeTeam: Joi.number(),
-      awayTeam: Joi.number(),
-      homeTeamGoals: Joi.number(),
-      awayTeamGoals: Joi.number(),
-    });
-    const result = schema.validateAsync(unknown);
-    return result;
-  }
+  // async validateBodyAdd(unknown: unknown) {
+  //   const schema = Joi.object<IAddMatch>({
+  //     homeTeam: Joi.number(),
+  //     awayTeam: Joi.number(),
+  //     homeTeamGoals: Joi.number(),
+  //     awayTeamGoals: Joi.number(),
+  //   });
+  //   const result = schema.validateAsync(unknown);
+  //   return result;
+  // }
 
   async list(): Promise<Match[]> {
     const matches = await Match.findAll({
