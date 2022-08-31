@@ -26,9 +26,10 @@ export default class MatchesController {
     const { authorization }: any = req.headers;
 
     verify(authorization, secret);
-
-    const match = await this.matchesService.inProgressAdd(req.body);
-    
+    const validateBodyAdd = await this.matchesService.validateBodyAdd(req.body);
+    console.log(validateBodyAdd)
+    const match = await this.matchesService.inProgressAdd(validateBodyAdd);
+    console.log(match)
     return res.status(201).json(match);
   }
 

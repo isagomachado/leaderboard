@@ -1,14 +1,24 @@
-// import * as Joi from 'joi';
+import * as Joi from 'joi';
 import Team from '../database/models/Team';
 import Match from '../database/models/Match';
 import NotFoundError from '../errors/NotFoundError';
 import { IAddMatch } from '../interfaces/IAddMatch';
 import { IMatch } from '../interfaces/IMatch';
-import InvalidIdError from '../errors/InvalidIdError';
 import IncorrectDataError from '../errors/IncorrectDataError';
 import { IChangeMatch } from '../interfaces/IChangeMatch';
 
 export default class MatchesService {
+  async validateBodyAdd(unknown: unknown) {
+    const schema = Joi.object<IAddMatch>({
+      homeTeam: Joi.number(),
+      awayTeam: Joi.number(),
+      homeTeamGoals: Joi.number(),
+      awayTeamGoals: Joi.number(),
+    });
+    const result = schema.validateAsync(unknown);
+    return result;
+  }
+
   async list(): Promise<Match[]> {
     const matches = await Match.findAll({
       include: [
